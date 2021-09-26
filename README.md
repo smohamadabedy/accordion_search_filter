@@ -1,9 +1,8 @@
-# according_search_filter
 
 <div class="container-fluid">
 
 <div  id="scrollspyHeading1" class="shadow-lg p-3 m-5 bg-body rounded">
-<h1 class="text-primary">JQ & Bootstrap 5 - accordion filter</h1>
+<h1 class="text-primary">JQ & Bootstrap 5 - accordion filter and search</h1>
 <hr/>
 <h5 class="text-center">simply filter accordings body and header contents  using search box and filter.</h5>
 <br>
