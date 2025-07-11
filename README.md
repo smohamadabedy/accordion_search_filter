@@ -4,15 +4,16 @@
   <div class="shadow-lg p-4 mb-5 bg-light rounded">
     <h1 class="text-primary">jQuery & Bootstrap Accordion Filter</h1>
     <p class="lead">Easily filter Bootstrap accordion items based on header, body, and custom filter tags.</p>
-    <hr>
-    <h4>🔧 Setup Instructions</h4>
-    <p>To use this plugin, you need the following elements in your HTML:</p>
-    <ul>
-      <li><code>&lt;input id="search-data-input" /&gt;</code> – for searching accordion content (headers & body)</li>
-      <li><code>&lt;input id="filter_data_input" /&gt;</code> – to add filter keywords</li>
-      <li><code>&lt;button id="filter_data_btn"&gt;Add&lt;/button&gt;</code> – button to submit the filter</li>
-      <li><code>&lt;div id="filter_container"&gt;&lt;/div&gt;</code> – shows active filter tags</li>
-    </ul>
+    <p>Demo: https://smohamadabedy.github.io/accordion_search_filter/</p>
+  <hr>
+  <h4>🔧 Setup Instructions</h4>
+  <p>To use this plugin, you need the following elements in your HTML:</p>
+  <ul>
+    <li><code>&lt;input id="search-data-input" /&gt;</code> – for searching accordion content (headers & body)</li>
+    <li><code>&lt;input id="filter_data_input" /&gt;</code> – to add filter keywords</li>
+    <li><code>&lt;button id="filter_data_btn"&gt;Add&lt;/button&gt;</code> – button to submit the filter</li>
+    <li><code>&lt;div id="filter_container"&gt;&lt;/div&gt;</code> – shows active filter tags</li>
+  </ul>
 
   <p>Each collapsible accordion section should contain a <code>data-filter-label</code> attribute, like:</p>
   <pre><code>&lt;div class="accordion-collapse collapse" 
