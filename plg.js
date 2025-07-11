@@ -1,117 +1,107 @@
 (function($) {
 
-  // Simple language dictionary
   const btAccLangs = {
     en: {
-      alreadyAdded: "Already added"
+      alreadyAdded: "Already added",
+      noResults: "No matching items in this group."
     },
     fa: {
-      alreadyAdded: "قبلا ثبت شده است"
+      alreadyAdded: "قبلا ثبت شده است",
+      noResults: "موردی در این گروه یافت نشد."
     }
   };
 
   $.fn.btAcc_sf = function(options) {
     const system = this;
 
-    // Set language
     const settings = $.extend({
       lang: 'en'
     }, options);
+
     const lang = btAccLangs[settings.lang] || btAccLangs.en;
 
-    const txtSearch = $("#" + options.search_input_id);
-    const txtFilter = $("#" + options.filter_input_id);
-    const filterBtn = $("#" + options.filter_btn_id);
-    const filterContainer = $("#" + options.filter_container);
+    const txtSearch = $("#" + settings.search_input_id);
+    const txtFilter = $("#" + settings.filter_input_id);
+    const filterBtn = $("#" + settings.filter_btn_id);
+    const filterContainer = $("#" + settings.filter_container);
 
+    // Bind add-filter
     filterBtn.on("click", function() {
       system.addFilterData();
       system.showAll();
     });
 
+    // Remove individual filter
     $(document).on("click", ".filter_data_close_btn", function() {
-      system.removeFilterData($(this).closest("i"));
+      $(this).closest("i").remove();
+      txtFilter.val("");
+      txtSearch.val("");
       system.showAll();
     });
 
+    // Add filter from shortcut
     $(document).on("click", ".create_new_filter_data", function() {
-      const filterText = $(this).text();
-      const existing = system.getFilterData();
-      if (existing.includes(filterText)) {
+      const text = $(this).text().trim();
+      const filters = system.getFilterData();
+      if (filters.includes(text)) {
         alert(lang.alreadyAdded);
         return;
       }
       filterContainer.append(`<i class="btn btn-primary m-1">
-        <span class="filter_data">${filterText}</span> |
+        <span class="filter_data">${text}</span> |
         <span class="btn btn-danger filter_data_close_btn">X</span>
       </i>`);
       txtFilter.val("");
       system.showAll();
     });
 
+    // Search input
     txtSearch.on("keyup", function() {
       const query = $(this).val().trim().toUpperCase();
       const filters = system.getFilterData();
-
-      if (!query) {
-        system.showAll();
-        return;
-      }
-
       system.closeAll();
 
-      $(".accordion-body").each(function() {
-        if ($(this).text().toUpperCase().includes(query)) {
-          const labels = ($(this).parent().attr("data-filter-label") || "").split(";");
-          if (filters.length === 0 || filters.some(f => labels.includes(f))) {
-            $(this).parent().removeClass("collapse").addClass("show");
-            $(this).parent().parent().show();
-          }
-        }
-      });
+      $(".accordion").each(function() {
+        let matchFound = false;
 
-      $(".accordion-header").each(function() {
-        if ($(this).text().toUpperCase().includes(query)) {
-          const collapse = $(this).siblings(".accordion-collapse");
+        $(this).find(".accordion-item").each(function() {
+          const collapse = $(this).find(".accordion-collapse");
+          const body = collapse.find(".accordion-body");
+          const header = $(this).find(".accordion-header");
           const labels = (collapse.attr("data-filter-label") || "").split(";");
-          if (filters.length === 0 || filters.some(f => labels.includes(f))) {
-            collapse.removeClass("collapse").addClass("show");
-            collapse.parent().show();
+
+          const bodyMatch = body.text().toUpperCase().includes(query);
+          const headerMatch = header.text().toUpperCase().includes(query);
+
+          let labelMatch = true;
+          if (filters.length > 0) {
+            labelMatch = filters.some(f => labels.includes(f));
           }
-        }
+
+          if ((bodyMatch || headerMatch) && labelMatch) {
+            collapse.addClass("show").removeClass("collapse");
+            $(this).show();
+            matchFound = true;
+          } else {
+            $(this).hide();
+          }
+        });
+
+        system.toggleGroupMessage($(this), !matchFound);
       });
     });
 
-    this.closeAll = function() {
-      $(".accordion-collapse").each(function() {
-        $(this).removeClass("show").addClass("collapse");
-        $(this).parent().hide();
-      });
-    };
-
-    this.showAll = function() {
-      system.closeAll();
-      const filters = system.getFilterData();
-      if (filters.length > 0) {
-        system.showByFilter();
-      } else {
-        $(".accordion-collapse").each(function() {
-          $(this).parent().show();
-        });
-      }
-    };
-
-    this.removeFilterData = function(el) {
-      el.remove();
-      txtFilter.val("");
-      txtSearch.val("");
+    this.getFilterData = function() {
+      return $(".filter_data").map(function() {
+        return $(this).text().trim();
+      }).get();
     };
 
     this.addFilterData = function() {
       const val = txtFilter.val().trim();
       if (!val) return;
-      const existing = system.getFilterData();
-      if (existing.includes(val)) {
+      const filters = system.getFilterData();
+      if (filters.includes(val)) {
         alert(lang.alreadyAdded);
         return;
       }
@@ -122,20 +112,45 @@
       txtFilter.val("");
     };
 
-    this.getFilterData = function() {
-      return $(".filter_data").map(function() {
-        return $(this).text();
-      }).get();
+    this.closeAll = function() {
+      $(".accordion-item").hide();
+      $(".accordion-collapse").removeClass("show").addClass("collapse");
     };
 
-    this.showByFilter = function() {
+    this.showAll = function() {
       const filters = system.getFilterData();
-      $(".accordion-collapse").each(function() {
-        const labels = ($(this).attr("data-filter-label") || "").split(";");
-        if (filters.some(f => labels.includes(f))) {
-          $(this).parent().show(200);
-        }
+
+      $(".accordion").each(function() {
+        let matchFound = false;
+
+        $(this).find(".accordion-item").each(function() {
+          const collapse = $(this).find(".accordion-collapse");
+          const labels = (collapse.attr("data-filter-label") || "").split(";");
+
+          if (filters.length === 0 || filters.some(f => labels.includes(f))) {
+            $(this).show();
+            matchFound = true;
+          } else {
+            $(this).hide();
+          }
+        });
+
+        system.toggleGroupMessage($(this), !matchFound);
       });
+    };
+
+    this.toggleGroupMessage = function($accordion, show) {
+      let msg = $accordion.find(".btacc-no-result-message");
+
+      if (show) {
+        if (msg.length === 0) {
+          msg = $(`<div class="btacc-no-result-message text-muted small p-2">${lang.noResults}</div>`);
+          $accordion.append(msg);
+        }
+        msg.show();
+      } else {
+        msg.hide();
+      }
     };
 
     return this;
