@@ -1,40 +1,41 @@
 
 <div class="container-fluid">
 
-<div  id="scrollspyHeading1" class="shadow-lg p-3 m-5 bg-body rounded">
-<h1 class="text-primary">JQ & Bootstrap 5 - accordion filter and search</h1>
-<hr/>
-<h5 class="text-center">simply filter accordings body and header contents  using search box and filter.</h5>
-<br>
-<div class="lead">
-	<h3>Initialization:</h3>
-	you need three IDs :
-	<ul>
-      <li>search input box <code>&#x3C;input id=&#x22;search-data-input&#x22;/&#x3E;</code></li>
-      <li>filter input box <code> &#x3C;input id=&#x22;filter_data_input&#x22;/&#x3E;</code></li>
-      <li>filter button <code>&#x3C;buttonid=&#x22;filter_data_btn&#x22;&#x3E;add&#x3C;/button&#x3E;</code></li>
-	  <li>filter container <code>&#x3C;div id=&#x22;filter_container&#x22;&#x3E;&#x3C;/div&#x3E;</code></li>
+  <div class="shadow-lg p-4 mb-5 bg-light rounded">
+    <h1 class="text-primary">jQuery & Bootstrap Accordion Filter</h1>
+    <p class="lead">Easily filter Bootstrap accordion items based on header, body, and custom filter tags.</p>
+    <hr>
+    <h4>🔧 Setup Instructions</h4>
+    <p>To use this plugin, you need the following elements in your HTML:</p>
+    <ul>
+      <li><code>&lt;input id="search-data-input" /&gt;</code> – for searching accordion content (headers & body)</li>
+      <li><code>&lt;input id="filter_data_input" /&gt;</code> – to add filter keywords</li>
+      <li><code>&lt;button id="filter_data_btn"&gt;Add&lt;/button&gt;</code> – button to submit the filter</li>
+      <li><code>&lt;div id="filter_container"&gt;&lt;/div&gt;</code> – shows active filter tags</li>
     </ul>
-	then add data-filter-label attribute to div which contains according-collapse  <code>&#x3C;div id=&#x22;collapseOne&#x22; class=&#x22;accordion-collapse  collapse&#x22; aria-labelledby=&#x22;headingOne&#x22; data-filter-label=&#x22;apple;blue;red&#x22;&#x3E;</code>
-	you can seprate each filter data by <kbd>;</kbd><br/>
-	this attribute must be present in each div even if there's no filter data	
-<br/>	
-	now you can run the plugin <br/>
-	<code><pre>
-&#x3C;script&#x3E;
+
+    <p>Each collapsible accordion section should contain a <code>data-filter-label</code> attribute, like:</p>
+    <pre><code>&lt;div class="accordion-collapse collapse" 
+     data-filter-label="apple;blue;red"&gt;...&lt;/div&gt;</code></pre>
+
+    <p>You can separate multiple filter tags using a <kbd>;</kbd>. The attribute is required for each accordion item.</p>
+
+    <h4>🚀 Initialize the Plugin</h4>
+    <pre><code>&lt;script&gt;
 var plg = $().btAcc_sf({
-&#x27;search_input_id&#x27; : &#x27;search-data-input&#x27; ,
- &#x27;filter_input_id&#x27; : &#x27;filter_data_input&#x27; ,
- &#x27;filter_btn_id&#x27; : &#x27;filter_data_btn&#x27; ,
- &#x27;filter_container&#x27; : &#x27;filter_container&#x27;
- });
-&#x3C;/script&#x3E;
-</pre></code>
-	<h3>filter shortcut buttons:</h3>
-	you can easly setup shortcut buttons for data filtering 
-	<code>&#x3C;button class=&#x22;create_new_filter_data&#x22;&#x3E;red&#x3C;/button&#x3E</code> //filter accordings with data-label
-</div>
+  search_input_id: 'search-data-input',
+  filter_input_id: 'filter_data_input',
+  filter_btn_id: 'filter_data_btn',
+  filter_container: 'filter_container',
+  lang: 'en'
+});
+&lt;/script&gt;
+</code></pre>
 
-
-</div>
+    <h4>⚡ Filter Shortcut Buttons</h4>
+    <p>You can also add quick-filter buttons like:</p>
+    <pre><code>&lt;button class="create_new_filter_data"&gt;red&lt;/button&gt;</code></pre>
+    <p>This will filter accordion items containing the tag <code>red</code>.</p>
+  </div>
+  
 </div>

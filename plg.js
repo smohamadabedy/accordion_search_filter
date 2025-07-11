@@ -1,207 +1,144 @@
+(function($) {
 
+  // Simple language dictionary
+  const btAccLangs = {
+    en: {
+      alreadyAdded: "Already added"
+    },
+    fa: {
+      alreadyAdded: "قبلا ثبت شده است"
+    }
+  };
 
+  $.fn.btAcc_sf = function(options) {
+    const system = this;
 
-(function( $ ) {
-$.fn.btAcc_sf = function(options) {
+    // Set language
+    const settings = $.extend({
+      lang: 'en'
+    }, options);
+    const lang = btAccLangs[settings.lang] || btAccLangs.en;
 
+    const txtSearch = $("#" + options.search_input_id);
+    const txtFilter = $("#" + options.filter_input_id);
+    const filterBtn = $("#" + options.filter_btn_id);
+    const filterContainer = $("#" + options.filter_container);
 
-//define seller
-var system = this;
+    filterBtn.on("click", function() {
+      system.addFilterData();
+      system.showAll();
+    });
 
-//define inputs
-var txt_search = $("#"+options.search_input_id);
-var txt_filter = $("#"+options.filter_input_id);
-var filter_btn = $('#'+options.filter_btn_id);
-var filter_container = $('#'+options.filter_container);
-//event_add_filter
-filter_btn.click(function(){
-	system.add_filter_data();
-	system.showAll();
-});
+    $(document).on("click", ".filter_data_close_btn", function() {
+      system.removeFilterData($(this).closest("i"));
+      system.showAll();
+    });
 
-//event_rem_filter
-$(document).on('click', '.filter_data_close_btn', function() {
-	
-	system.remove_filter_data($(this).parent());
-	system.showAll();
+    $(document).on("click", ".create_new_filter_data", function() {
+      const filterText = $(this).text();
+      const existing = system.getFilterData();
+      if (existing.includes(filterText)) {
+        alert(lang.alreadyAdded);
+        return;
+      }
+      filterContainer.append(`<i class="btn btn-primary m-1">
+        <span class="filter_data">${filterText}</span> |
+        <span class="btn btn-danger filter_data_close_btn">X</span>
+      </i>`);
+      txtFilter.val("");
+      system.showAll();
+    });
 
-	
-});
+    txtSearch.on("keyup", function() {
+      const query = $(this).val().trim().toUpperCase();
+      const filters = system.getFilterData();
 
+      if (!query) {
+        system.showAll();
+        return;
+      }
 
+      system.closeAll();
 
-$(document).on('click', '.create_new_filter_data', function() {
- let filter_text = $(this).text();
-var carty = system.get_filter_data();
-	for(x in carty){
-	 if(carty[x] == filter_text){
-		alert("قبلا ثبت شده است")
-		return false;
-	 }
-	}
-	filter_container.append('<i onClick="" class=" btn btn-primary  m-1"><span class="filter_data">'+filter_text+'</span> | <span class="btn btn-danger filter_data_close_btn">X</span></i>');
-	txt_filter.val("");
-	system.showAll();
-});
+      $(".accordion-body").each(function() {
+        if ($(this).text().toUpperCase().includes(query)) {
+          const labels = ($(this).parent().attr("data-filter-label") || "").split(";");
+          if (filters.length === 0 || filters.some(f => labels.includes(f))) {
+            $(this).parent().removeClass("collapse").addClass("show");
+            $(this).parent().parent().show();
+          }
+        }
+      });
 
+      $(".accordion-header").each(function() {
+        if ($(this).text().toUpperCase().includes(query)) {
+          const collapse = $(this).siblings(".accordion-collapse");
+          const labels = (collapse.attr("data-filter-label") || "").split(";");
+          if (filters.length === 0 || filters.some(f => labels.includes(f))) {
+            collapse.removeClass("collapse").addClass("show");
+            collapse.parent().show();
+          }
+        }
+      });
+    });
 
-//event_search
-txt_search.keyup(function(){
- 
-///begin
+    this.closeAll = function() {
+      $(".accordion-collapse").each(function() {
+        $(this).removeClass("show").addClass("collapse");
+        $(this).parent().hide();
+      });
+    };
 
-///validate
-var txt = $(this).val();
-if(txt == "" || txt == null ){
-system.showAll();
-return false;
-}else{
-system.closeall();
-}
+    this.showAll = function() {
+      system.closeAll();
+      const filters = system.getFilterData();
+      if (filters.length > 0) {
+        system.showByFilter();
+      } else {
+        $(".accordion-collapse").each(function() {
+          $(this).parent().show();
+        });
+      }
+    };
 
+    this.removeFilterData = function(el) {
+      el.remove();
+      txtFilter.val("");
+      txtSearch.val("");
+    };
 
+    this.addFilterData = function() {
+      const val = txtFilter.val().trim();
+      if (!val) return;
+      const existing = system.getFilterData();
+      if (existing.includes(val)) {
+        alert(lang.alreadyAdded);
+        return;
+      }
+      filterContainer.append(`<i class="btn btn-primary m-1">
+        <span class="filter_data">${val}</span> |
+        <span class="btn btn-danger filter_data_close_btn">X</span>
+      </i>`);
+      txtFilter.val("");
+    };
 
-var cartyy = system.get_filter_data();
+    this.getFilterData = function() {
+      return $(".filter_data").map(function() {
+        return $(this).text();
+      }).get();
+    };
 
-///serach in body
-$('.accordion-body').each(function(){
-   if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
-   
- if(cartyy.length != 0){
-			$data_filter = ( $(this).parent().attr('data-filter-label'));
-			let $data_filter_arr = $data_filter.split(";");
-			for(x in cartyy){
-				if($data_filter_arr.includes(cartyy[x])){
-				       $(this).parent().removeClass('collapse');
-						$(this).parent().parent().show();
-				}
-			}
-			
-		 }else{
-			       $(this).parent().removeClass('collapse');
-					$(this).parent().parent().show();
-		  }	   
-	   
+    this.showByFilter = function() {
+      const filters = system.getFilterData();
+      $(".accordion-collapse").each(function() {
+        const labels = ($(this).attr("data-filter-label") || "").split(";");
+        if (filters.some(f => labels.includes(f))) {
+          $(this).parent().show(200);
+        }
+      });
+    };
 
-	}else{}
-});
+    return this;
+  };
 
-///serach in header
-$('.accordion-header').each(function(){
-   if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
-			
-		  if(cartyy.length != 0){
-			$data_filter = ($(this).find("~ div").attr('data-filter-label'));
-			let $data_filter_arr = $data_filter.split(";");
-			for(x in cartyy){
-				if($data_filter_arr.includes(cartyy[x])){
-				$(this).find("~ div").removeClass('collapse');
-				$(this).parent().show();
-				}
-			}
-			
-		 }else{
-			$(this).find("~ div").removeClass('collapse');
-			$(this).parent().show();
-		  }
-		  
-      
-	}else{}
-});
-//end
-///keyup function
-});
-
-////refrshing page
-this.closeall = function (){
-$('.accordion-collapse').each(function(){
-	$(this).addClass("collapse");
-	$(this).removeClass('show');
-	$(this).parent().hide();
-
-});
-}
-
-this.showAll = function(){
-
-system.closeall();
-let cartyy = system.get_filter_data();
-
-if(cartyy.length != 0){
-system.show_by_filter();
-}else{
-$('.accordion-collapse').each(function(){
-	$(this).parent().show();
-});
-}
-
-
-
-
-
-
-}
-
-this.remove_filter_data = function (el){
-  let element = el;
-  element.remove();
-  system.closeall();
-  txt_filter.val("");
-  txt_search.val("");
-}
-
-this.add_filter_data = function (){
-	let filter_text = txt_filter.val();
-	if(filter_text == "" || filter_text == null ){
-	return false;
-	}
-	var carty = system.get_filter_data();
-	for(x in carty){
-	 if(carty[x] == filter_text){
-		alert("قبلا ثبت شده است")
-		return false;
-	 }
-	}
-	filter_container.append('<i onClick="" class=" btn btn-primary  m-1"><span class="filter_data">'+filter_text+'</span> | <span class="btn btn-danger filter_data_close_btn">X</span></i>');
-
-	txt_filter.val("");
-}
-
-this.get_filter_data = function (){	
-	let cart = [];
-	$(".filter_data").each(function(){
-	cart.push($(this).text());
-	});
-	return cart;
-}
-
-this.show_by_filter  = function(){
-
-
-var carty = system.get_filter_data();
-		$('.accordion-collapse').each(function(){
-			$data_filter = ($(this).attr('data-filter-label'));
-			let $data_filter_arr = $data_filter.split(";");
-			for(x in carty){
-					if($data_filter_arr.includes(carty[x])){
-					$(this).parent().show(200);
-
-				}
-			
-			}
-		});
-
-
-
-
-
-}
-
-//end of plugin
-
-return this;
-}
-
-}( jQuery ));
-
-
+})(jQuery);

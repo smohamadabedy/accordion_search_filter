@@ -1,203 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Page Title</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-</head>
-<body >
-
-
-
-
-
-<div class="container-fluid">
-
-<div  id="scrollspyHeading1" class="shadow-lg p-3 m-5 bg-body rounded">
-<h1 class="text-primary">JQ & Bootstrap 5 - accordion filter</h1>
-<hr/>
-<h5 class="text-center">simply filter accordings body and header contents  using search box and filter.</h5>
-<br>
-<div class="lead">
-	<h3>Initialization:</h3>
-	you need three IDs :
-	<ul>
-      <li>search input box <code>&#x3C;input id=&#x22;search-data-input&#x22;/&#x3E;</code></li>
-      <li>filter input box <code> &#x3C;input id=&#x22;filter_data_input&#x22;/&#x3E;</code></li>
-      <li>filter button <code>&#x3C;buttonid=&#x22;filter_data_btn&#x22;&#x3E;add&#x3C;/button&#x3E;</code></li>
-	  <li>filter container <code>&#x3C;div id=&#x22;filter_container&#x22;&#x3E;&#x3C;/div&#x3E;</code></li>
-    </ul>
-	then add data-filter-label attribute to div which contains according-collapse  <code>&#x3C;div id=&#x22;collapseOne&#x22; class=&#x22;accordion-collapse  collapse&#x22; aria-labelledby=&#x22;headingOne&#x22; data-filter-label=&#x22;apple;blue;red&#x22;&#x3E;</code>
-	you can seprate each filter data by <kbd>;</kbd><br/>
-	this attribute must be present in each div even if there's no filter data	
-<br/>	
-	now you can run the plugin <br/>
-	<code><pre>
-&#x3C;script&#x3E;
-var plg = $().btAcc_sf({
-&#x27;search_input_id&#x27; : &#x27;search-data-input&#x27; ,
- &#x27;filter_input_id&#x27; : &#x27;filter_data_input&#x27; ,
- &#x27;filter_btn_id&#x27; : &#x27;filter_data_btn&#x27; ,
- &#x27;filter_container&#x27; : &#x27;filter_container&#x27;
- });
-&#x3C;/script&#x3E;
-</pre></code>
-	<h3>filter shortcut buttons:</h3>
-	you can easly setup shortcut buttons for data filtering 
-	<code>&#x3C;button class=&#x22;create_new_filter_data&#x22;&#x3E;red&#x3C;/button&#x3E</code> //filter accordings with data-label
-</div>
-
-
-</div>
-</div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>jQuery & Bootstrap  Accordion Filter Plugin</title>
   
+  <!-- Bootstrap CSS -->
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous">
+</head>
+<body>
 
+<div class="container py-5">
 
-<div class="container-fluid p-5 " >
+  <!-- Plugin Introduction -->
+  <div class="shadow-lg p-4 mb-5 bg-light rounded">
+    <h1 class="text-primary">jQuery & Bootstrap Accordion Filter</h1>
+    <p class="lead">Easily filter Bootstrap accordion items based on header, body, and custom filter tags.</p>
+    <hr>
+    <h4>🔧 Setup Instructions</h4>
+    <p>To use this plugin, you need the following elements in your HTML:</p>
+    <ul>
+      <li><code>&lt;input id="search-data-input" /&gt;</code> – for searching accordion content (headers & body)</li>
+      <li><code>&lt;input id="filter_data_input" /&gt;</code> – to add filter keywords</li>
+      <li><code>&lt;button id="filter_data_btn"&gt;Add&lt;/button&gt;</code> – button to submit the filter</li>
+      <li><code>&lt;div id="filter_container"&gt;&lt;/div&gt;</code> – shows active filter tags</li>
+    </ul>
 
-<div class=" shadow card-body">
-<div class="row justify-content-around">
-<input id="search-data-input" class="col-md-6 " placeholder="search" onKeyup="" style=""/>
-</div>
+    <p>Each collapsible accordion section should contain a <code>data-filter-label</code> attribute, like:</p>
+    <pre><code>&lt;div class="accordion-collapse collapse" 
+     data-filter-label="apple;blue;red"&gt;...&lt;/div&gt;</code></pre>
 
-<br/>
+    <p>You can separate multiple filter tags using a <kbd>;</kbd>. The attribute is required for each accordion item.</p>
 
-<div class="row justify-content-around">
+    <h4>🚀 Initialize the Plugin</h4>
+    <pre><code>&lt;script&gt;
+var plg = $().btAcc_sf({
+  search_input_id: 'search-data-input',
+  filter_input_id: 'filter_data_input',
+  filter_btn_id: 'filter_data_btn',
+  filter_container: 'filter_container',
+  lang: 'en'
+});
+&lt;/script&gt;
+</code></pre>
 
-<input id="filter_data_input" class="col-md-6 " placeholder="filter name" onKeyup="" style=""/>
-<button  class="btn btn-primary col-md-2"  id="filter_data_btn">add</button><br/><br/><br/>
-</div><br/>
-<div>
-<h3>filtering shortcut buttons :</h3>
-<button  class="btn btn-primary col-md-1 create_new_filter_data"  id="">red</button>
-<button  class="btn btn-primary col-md-1 create_new_filter_data"  id="">green</button><br/><br/>
-<div id="filter_container" class="bg-warning rounded p-2">
-filter container
-</div>
+    <h4>⚡ Filter Shortcut Buttons</h4>
+    <p>You can also add quick-filter buttons like:</p>
+    <pre><code>&lt;button class="create_new_filter_data"&gt;red&lt;/button&gt;</code></pre>
+    <p>This will filter accordion items containing the tag <code>red</code>.</p>
+  </div>
 
+  <!-- Interactive UI -->
+  <div class="card shadow p-4">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input id="search-data-input" class="form-control" placeholder="Search accordion content..." />
+      </div>
+    </div>
 
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input id="filter_data_input" class="form-control" placeholder="Enter filter keyword, e.g. type apple" />
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" id="filter_data_btn">Add</button>
+      </div>
+    </div>
 
-</div>
-<hr/>
-<h4>This is a accordion 1 </h4>
+    <h5>Filter Shortcuts:</h5>
+    <div class="mb-3">
+      <button class="btn btn-outline-primary create_new_filter_data">red</button>
+      <button class="btn btn-outline-success create_new_filter_data">green</button>
+    </div>
 
-<div class="accordion" id="accordionExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse  collapse" aria-labelledby="headingOne" data-filter-label="apple;blue;red">
-      <div class="accordion-body">
-		simple text for searching 
-	  </div>
+    <div id="filter_container" class="bg-warning p-2 rounded mb-4">
+      Active filters will appear here.
+    </div>
+
+    <hr>
+
+    <!-- Accordion 1 -->
+    <h4 class="mb-3">Accordion Example 1</h4>
+    <div class="accordion mb-5" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+            Accordion Item #1 | filters:apple;blue;red
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" data-filter-label="apple;blue;red">
+          <div class="accordion-body">Simple text for searching.</div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+            Accordion Item #2
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-filter-label="">
+          <div class="accordion-body">
+            <h5>About Web</h5>
+            <p>This section is about web technologies.</p>
+            <code>echo "test"; $a = 4 + 5;</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+            Accordion Item #3 | filters: green
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-filter-label="green">
+          <div class="accordion-body"><b>BMW, Pride, NISSAN</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordion 2 -->
+    <h4 class="mb-3">Accordion Example 2</h4>
+    <div class="accordion" id="accordionExample2">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2">
+            Accordion Item #1 | filters:apple;blue;red
+          </button>
+        </h2>
+        <div id="collapseOne2" class="accordion-collapse collapse" data-filter-label="apple;blue;red">
+          <div class="accordion-body">Text one</div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo2">
+            Accordion Item #2
+          </button>
+        </h2>
+        <div id="collapseTwo2" class="accordion-collapse collapse" data-filter-label="">
+          <div class="accordion-body">Text two</div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree2">
+            Accordion Item #3
+          </button>
+        </h2>
+        <div id="collapseThree2" class="accordion-collapse collapse" data-filter-label="">
+          <div class="accordion-body">Text three</div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-		        Accordion Item #2
-
-      </button>
-    </h2>
-    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-filter-label="">
-      <div class="accordion-body">
-		<h2>about web</h2>
-		<p>this section is about web</p>
-
-<code>
-echo "test" ;
-$a  = 4 +5; 
-	
-</code>
-
-</div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        Accordion Item #3
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-filter-label="green">
-      <div class="accordion-body">
-<b>BMW , Pride , NiSSAN </b>    </div>
-    </div>
-  </div>
 </div>
 
+<!-- Dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+  integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+  crossorigin="anonymous"></script>
 
-<hr/>
-<h4>This is a accordion 2 </h4>
-
-
-
-<div class="accordion" id="accordionExample2">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseOne2">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="collapseOne2" class="accordion-collapse  collapse" aria-labelledby="headingOne" data-filter-label="apple;blue;red">
-      <div class="accordion-body">
-text one     </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo2">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="collapseTwo2" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-filter-label="">
-      <div class="accordion-body">
-text two     </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree2">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree2" aria-expanded="false" aria-controls="collapseThree2">
-        Accordion Item #3
-      </button>
-    </h2>
-    <div id="collapseThree2" class="accordion-collapse collapse" aria-labelledby="headingThree2" data-filter-label="">
-      <div class="accordion-body">
-text three     </div>
-    </div>
-  </div>
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-<script src="plg.js"> </script>
+<!-- Your Plugin -->
+<script src="plg.js"></script>
 
 <script>
-
-
-var plg = $().btAcc_sf({
-'search_input_id' : 'search-data-input' ,
- 'filter_input_id' : 'filter_data_input' ,
- 'filter_btn_id' : 'filter_data_btn' ,
- 'filter_container' : 'filter_container'
- });
-
+  var plg = $().btAcc_sf({
+	  search_input_id: 'search-data-input',
+	  filter_input_id: 'filter_data_input',
+	  filter_btn_id: 'filter_data_btn',
+	  filter_container: 'filter_container',
+	  lang: 'en'
+	});
 </script>
-
 
 </body>
 </html>
