@@ -1,0 +1,20 @@
+{
+  "name": "jquery-accordion-filter",
+  "version": "1.0.0",
+  "description": "A lightweight jQuery plugin to filter and search accordion items with Bootstrap.",
+  "main": "dist/btAcc_sf.js",
+  "keywords": [
+    "jquery",
+    "accordion",
+    "bootstrap",
+    "filter",
+    "search",
+    "plugin"
+  ],
+  "author": "SMABEDY",
+  "license": "GNU",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smohamadabedy/accordion_search_filter"
+  }
+}
