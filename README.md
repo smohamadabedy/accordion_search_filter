@@ -14,14 +14,14 @@
       <li><code>&lt;div id="filter_container"&gt;&lt;/div&gt;</code> – shows active filter tags</li>
     </ul>
 
-    <p>Each collapsible accordion section should contain a <code>data-filter-label</code> attribute, like:</p>
-    <pre><code>&lt;div class="accordion-collapse collapse" 
-     data-filter-label="apple;blue;red"&gt;...&lt;/div&gt;</code></pre>
+  <p>Each collapsible accordion section should contain a <code>data-filter-label</code> attribute, like:</p>
+  <pre><code>&lt;div class="accordion-collapse collapse" 
+   data-filter-label="apple;blue;red"&gt;...&lt;/div&gt;</code></pre>
 
-    <p>You can separate multiple filter tags using a <kbd>;</kbd>. The attribute is required for each accordion item.</p>
+  <p>You can separate multiple filter tags using a <kbd>;</kbd>. The attribute is required for each accordion item.</p>
 
-    <h4>🚀 Initialize the Plugin</h4>
-    <pre><code>&lt;script&gt;
+  <h4>🚀 Initialize the Plugin</h4>
+  <pre><code>&lt;script&gt;
 var plg = $().btAcc_sf({
   search_input_id: 'search-data-input',
   filter_input_id: 'filter_data_input',
@@ -32,10 +32,10 @@ var plg = $().btAcc_sf({
 &lt;/script&gt;
 </code></pre>
 
-    <h4>⚡ Filter Shortcut Buttons</h4>
-    <p>You can also add quick-filter buttons like:</p>
-    <pre><code>&lt;button class="create_new_filter_data"&gt;red&lt;/button&gt;</code></pre>
-    <p>This will filter accordion items containing the tag <code>red</code>.</p>
+  <h4>⚡ Filter Shortcut Buttons</h4>
+  <p>You can also add quick-filter buttons like:</p>
+  <pre><code>&lt;button class="create_new_filter_data"&gt;red&lt;/button&gt;</code></pre>
+  <p>This will filter accordion items containing the tag <code>red</code>.</p>
   </div>
   
 </div>
